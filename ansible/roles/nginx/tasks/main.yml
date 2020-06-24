@@ -1,0 +1,28 @@
+---
+# tasks file for nginx
+- name: Install epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install nginx.
+  yum:
+    name:
+      - nginx
+      - unzip
+    state: present
+
+- name: updane http.conf.j2 file
+  template:
+    dest: /etc/nginx/conf.d/http.conf
+    src: http.conf.j2
+
+- name: deploy the artifact
+  unarchive:
+    src: frontend.zip
+    dest: /usr/share/nginx/
+
+- name: start the service
+  service:
+    name: nginx
+    state: started

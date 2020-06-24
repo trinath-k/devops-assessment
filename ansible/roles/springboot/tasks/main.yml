@@ -1,0 +1,21 @@
+---
+# tasks file for springboot
+- name: install epel release
+  yum:
+    name: epel-release
+    state: latest
+
+- name: install jdk 11
+  yum:
+    name:
+      - java-11-openjdk-devel
+    state: present
+
+- name: upload artifacts
+  copy:
+    src: backend.jar
+    dest: ~/
+
+- name: start spring boot application
+  shell: "nohup java -jar ~/backend.jar &"
+
